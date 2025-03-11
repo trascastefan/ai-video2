@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Script Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Light theme */
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+            --background-color: #f8f9fa;
+            --text-color: #1a1a1a;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        [data-theme='dark'] {
+            /* Dark theme */
+            --primary-color: #3b82f6;
+            --secondary-color: #60a5fa;
+            --success-color: #34d399;
+            --danger-color: #f87171;
+            --background-color: #1a1a1a;
+            --text-color: #f3f4f6;
+            --card-bg: #2d2d2d;
+            --card-shadow: 0 4px 6px -1px rgb(255 255 255 / 0.1);
+        }
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        body {
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+        .script-output {
+            font-family: monospace;
+            white-space: pre-wrap;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+        }
+        .log-container {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            scrollbar-width: thin;
+            scrollbar-color: #666 #1e1e1e;
+        }
+        .log-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .log-container::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+        .log-container::-webkit-scrollbar-thumb {
+            background-color: #666;
+            border-radius: 4px;
+        }
+        .log-entry {
+            margin: 0;
+            padding: 2px 0;
+            font-size: 0.9em;
+        }
+        .log-timestamp {
+            color: #888;
+            margin-right: 10px;
+        }
+        .log-elapsed {
+            color: #666;
+            margin-right: 10px;
+        }
+        .log-success {
+            color: #28a745;
+        }
+        .log-error {
+            color: #dc3545;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            background-color: var(--card-bg);
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+            display: none;
+        }
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .input-group-text {
+            background-color: transparent;
+            border-left: none;
+        }
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+        }
+        .form-control.is-valid:focus {
+            border-color: var(--success-color);
+            box-shadow: 0 0 0 0.2rem rgba(5, 150, 105, 0.25);
+        }
+        .form-control.is-invalid:focus {
+            border-color: var(--danger-color);
+            box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25);
+        }
+        .impact-table {
+            font-size: 0.85em;
+        }
+        
+        .impact-table table {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .impact-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .prompt-content {
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85em;
+            white-space: pre-wrap;
+        }
+        
+        .table-responsive {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .table-responsive table {
+            margin-bottom: 0;
+        }
+        
+        /* Make the table header sticky */
+        .table-responsive thead th {
+            position: sticky;
+            top: 0;
+            background-color: var(--card-bg);
+            z-index: 1;
+        }
+        
+        .history-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .history-item:hover {
+            background-color: var(--background-color);
+        }
+        
+        .history-meta {
+            font-size: 0.85em;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        .history-script {
+            max-height: 100px;
+            overflow: hidden;
+            position: relative;
+            font-size: 0.9em;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
+        .history-script::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, var(--card-bg));
+        }
+        
+        .badge-period {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.8em;
+            padding: 0.3em 0.6em;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h1 class="mb-0">Stock Script Generator</h1>
+            <div class="theme-toggle">
+                <button class="btn btn-outline-secondary" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Script Generator</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Form -->
+                        <form id="scriptForm" class="mb-4">
+                            <div class="mb-3">
+                                <label for="symbol" class="form-label">Stock Symbol</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="symbol" 
+                                           placeholder="Enter stock symbol (e.g., AAPL)" 
+                                           pattern="^[A-Za-z]{1,5}$"
+                                           title="Please enter a valid stock symbol (1-5 letters)"
+                                           required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="symbolStatus">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <div id="symbolSuggestions" class="dropdown-menu w-100"></div>
+                                </div>
+                                <small class="form-text text-muted">Enter a valid stock symbol (1-5 letters)</small>
+                                <div class="invalid-feedback">Please enter a valid stock symbol.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="period" class="form-label">Time Period</label>
+                                <select class="form-select" id="period">
+                                    <option value="1mo">1 Month</option>
+                                    <option value="3mo">3 Months</option>
+                                    <option value="6mo">6 Months</option>
+                                    <option value="1y">1 Year</option>
+                                    <option value="2y">2 Years</option>
+                                    <option value="5y">5 Years</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" id="generateBtn">
+                                <span class="spinner-border spinner-border-sm me-2" style="display: none;" role="status" aria-hidden="true"></span>
+                                <span class="btn-text">Generate Script</span>
+                            </button>
+                        </form>
+                        
+                        <!-- Loading State -->
+                        <div id="loadingDiv" class="text-center" style="display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Generating script...</p>
+                        </div>
+                        
+                        <!-- Error Display -->
+                        <div id="error" class="alert alert-danger" style="display: none;"></div>
+                        
+                        <!-- Script Output -->
+                        <div id="scriptContainer" class="mt-4">
+                            <textarea id="scriptOutput" class="form-control" rows="10" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Logs</div>
+                    <div class="card-body p-0">
+                        <div class="log-container" id="logContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div id="dataContainer" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">Script Data</div>
+                        <div class="card-body">
+                            <div id="scriptData"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3" id="historyPanel">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Script History</h5>
+                        <button class="btn btn-sm btn-outline-primary" id="refreshHistory">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="historyList" class="list-group list-group-flush">
+                            <!-- History items will be added here -->
+                        </div>
+                        <div id="noHistory" class="p-4 text-center" style="display: none;">
+                            <i class="fas fa-history fa-2x mb-2 text-muted"></i>
+                            <p class="text-muted">No script history available</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="mb-0">Data Panel</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="data-panel">
+                            <!-- Stock Info -->
+                            <div class="stock-info mb-4">
+                                <h6>Stock Information</h6>
+                                <div id="stockInfo">
+                                    <p><strong>Symbol:</strong> <span id="symbolDisplay">-</span></p>
+                                    <p><strong>Period:</strong> <span id="periodDisplay">-</span></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Impact Table -->
+                            <div class="impact-table mb-4">
+                                <h6>Impact Analysis</h6>
+                                <div id="impactTable" class="table-responsive">
+                                    <p class="text-muted">Generate a script to see the impact analysis</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Prompt -->
+                            <div class="prompt-section mb-4">
+                                <h6>LLM Prompt</h6>
+                                <div id="promptDisplay" class="prompt-content">
+                                    <p class="text-muted">Generate a script to see the prompt</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Generation Logs -->
+                            <div class="generation-logs">
+                                <h6>Generation Logs</h6>
+                                <div id="logsDisplay" class="logs-content">
+                                    <p class="text-muted">No logs available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+        
+        function updateThemeIcon(theme) {
+            icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Symbol validation and feedback
+        const symbolInput = document.getElementById('symbol');
+        const symbolStatus = document.getElementById('symbolStatus');
+        let symbolValid = false;
+
+        symbolInput.addEventListener('input', function() {
+            const symbol = this.value.toUpperCase();
+            this.value = symbol; // Force uppercase
+            
+            if (symbol.match(/^[A-Z]{1,5}$/)) {
+                symbolValid = true;
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+                symbolStatus.innerHTML = '<i class="fas fa-check text-success"></i>';
+            } else {
+                symbolValid = false;
+                this.classList.remove('is-valid');
+                this.classList.add('is-invalid');
+                symbolStatus.innerHTML = '<i class="fas fa-times text-danger"></i>';
+            }
+        });
+
+        // Prevent form submission if symbol is invalid
+        document.getElementById('scriptForm').addEventListener('submit', function(e) {
+            if (!symbolValid) {
+                e.preventDefault();
+                symbolInput.focus();
+            }
+        });
+        $(document).ready(function() {
+            $("#symbol").autocomplete({
+                source: function(request, response) {
+                    fetch(`/search-stocks?q=${request.term}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            response(data.map(item => ({
+                                label: item.display,
+                                value: item.symbol
+                            })));
+                        });
+                },
+                minLength: 1
+            });
+        });
+
+        let currentSymbol = '';
+        let currentPeriod = '';
+
+        async function generateScript() {
+            const loadingDiv = document.getElementById('loadingDiv');
+            const scriptOutput = document.getElementById('scriptOutput');
+            const errorDiv = document.getElementById('error');
+            const generateBtn = document.getElementById('generateBtn');
+            const spinner = generateBtn.querySelector('.spinner-border');
+            const btnText = generateBtn.querySelector('.btn-text');
+            
+            try {
+                // Show loading state
+                loadingDiv.style.display = 'block';
+                generateBtn.disabled = true;
+                spinner.style.display = 'inline-block';
+                btnText.textContent = 'Generating...';
+                scriptOutput.value = 'Generating script...';
+                errorDiv.style.display = 'none';
+                
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        symbol: currentSymbol,
+                        period: currentPeriod
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    scriptOutput.value = data.script;
+                    
+                    // Update stock info
+                    document.getElementById('symbolDisplay').textContent = currentSymbol;
+                    document.getElementById('periodDisplay').textContent = currentPeriod;
+                    
+                    // Load script history
+                    loadScriptHistory(currentSymbol);
+                    
+                    // Update impact table
+                    const impactTableDiv = document.getElementById('impactTable');
+                    if (data.impact_table) {
+                        impactTableDiv.innerHTML = `<table class="table table-sm table-bordered">
+                            ${data.impact_table}
+                        </table>`;
+                    } else {
+                        impactTableDiv.innerHTML = '<p class="text-muted">No impact table available</p>';
+                    }
+                    
+                    // Update prompt display
+                    const promptDiv = document.getElementById('promptDisplay');
+                    if (data.prompt) {
+                        promptDiv.innerHTML = `<pre>${data.prompt}</pre>`;
+                    } else {
+                        promptDiv.innerHTML = '<p class="text-muted">No prompt available</p>';
+                    }
+                    
+                    // Update logs
+                    const logsDiv = document.getElementById('logsDisplay');
+                    if (data.logs && data.logs.length > 0) {
+                        logsDiv.innerHTML = data.logs.join('<br>');
+                    } else {
+                        logsDiv.innerHTML = '<p class="text-muted">No logs available</p>';
+                    }
+                } else {
+                    throw new Error(data.error || 'Unknown error occurred');
+                }
+            } catch (error) {
+                scriptOutput.value = '';
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = `Error: ${error.message}`;
+            } finally {
+                loadingDiv.style.display = 'none';
+                generateBtn.disabled = false;
+                spinner.style.display = 'none';
+                btnText.textContent = 'Generate Script';
+            }
+        }
+
+        // Load script history
+        async function loadScriptHistory(symbol) {
+            try {
+                const response = await fetch(`/api/history/${symbol}`);
+                const data = await response.json();
+                
+                const historyList = document.getElementById('historyList');
+                const noHistory = document.getElementById('noHistory');
+                
+                if (data.success && data.history.length > 0) {
+                    historyList.innerHTML = data.history.map(item => `
+                        <div class="list-group-item history-item" data-script="${item.script.replace(/"/g, '&quot;')}">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge badge-period">${item.period}</span>
+                                <small class="history-meta">${item.timestamp}</small>
+                            </div>
+                            <div class="history-script">${item.script}</div>
+                        </div>
+                    `).join('');
+                    
+                    historyList.style.display = 'block';
+                    noHistory.style.display = 'none';
+                    
+                    // Add click handlers to history items
+                    document.querySelectorAll('.history-item').forEach(item => {
+                        item.addEventListener('click', function() {
+                            const script = this.dataset.script;
+                            document.getElementById('scriptOutput').value = script;
+                        });
+                    });
+                } else {
+                    historyList.style.display = 'none';
+                    noHistory.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading history:', error);
+            }
+        }
+
+        // Refresh history button handler
+        document.getElementById('refreshHistory').addEventListener('click', function() {
+            if (currentSymbol) {
+                this.querySelector('i').classList.add('fa-spin');
+                loadScriptHistory(currentSymbol).finally(() => {
+                    this.querySelector('i').classList.remove('fa-spin');
+                });
+            }
+        });
+
+        // Form submission
+        document.getElementById('scriptForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            currentSymbol = document.getElementById('symbol').value;
+            currentPeriod = document.getElementById('period').value;
+            await generateScript();
+        });
+
+        // Toggle data visibility
+        document.getElementById('showDataBtn').addEventListener('click', () => {
+            const dataContainer = document.getElementById('dataContainer');
+            const showDataBtn = document.getElementById('showDataBtn');
+            if (dataContainer.style.display === 'none') {
+                dataContainer.style.display = 'block';
+                showDataBtn.textContent = 'Hide Data';
+            } else {
+                dataContainer.style.display = 'none';
+                showDataBtn.textContent = 'Show Data';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+
+> ai-stock-video@0.1.0 dev
+> next dev
+
+   ▲ Next.js 14.1.0
+   - Local:        http://localhost:3000
+   - Environments: .env.local, .env
+
+ ✓ Ready in 1135ms
+ ○ Compiling / ...
+ ✓ Compiled / in 785ms (480 modules)
+ ✓ Compiled in 95ms (248 modules)
+ ✓ Compiled /api/company in 124ms (260 modules)
+Processing company profile request for AAPL (forced refresh) (disallowing mock data)
+[2025-03-10T12:44:00.796Z] INFO: Getting company profile for AAPL
+[2025-03-10T12:44:00.796Z] INFO: Attempting to fetch company profile for AAPL from Finnhub
+[2025-03-10T12:44:00.796Z] INFO: Fetching company profile for AAPL from Finnhub
+Making Finnhub API request: https://finnhub.io/api/v1/stock/profile2?symbol=AAPL&token=curd8o9r01qgoble5gn0curd8o9r01qgoble5gng
+Finnhub API response: {
+  country: 'US',
+  currency: 'USD',
+  estimateCurrency: 'USD',
+  exchange: 'NASDAQ NMS - GLOBAL MARKET',
+  finnhubIndustry: 'Technology',
+  ipo: '1980-12-12',
+  logo: 'https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AAPL.png',
+  marketCapitalization: 3591327.1600350006,
+  name: 'Apple Inc',
+  phone: '14089961010',
+  shareOutstanding: 15037.87,
+  ticker: 'AAPL',
+  weburl: 'https://www.apple.com/'
+}
+[2025-03-10T12:44:01.291Z] INFO: Successfully fetched company profile from Finnhub
+[2025-03-10T12:44:01.291Z] INFO: Caching company profile for AAPL
+ ✓ Compiled /api/volume-analysis in 46ms (262 modules)
+Processing volume analysis request for AAPL with timeframe 1mo (forced refresh) (disallowing mock data)
+Forced refresh requested for AAPL, bypassing cache entirely
+[2025-03-10T12:44:01.361Z] INFO: Starting getStockData for AAPL
+Details: { timeframe: '1mo', forceRefresh: false }
+[2025-03-10T12:44:01.361Z] INFO: Standardized symbol: AAPL, timeframe: 1m
+[2025-03-10T12:44:01.361Z] INFO: Provider order for AAPL
+Details: { providers: [ 'Finnhub', 'AlphaVantage' ], enableFallback: true }
+[2025-03-10T12:44:01.361Z] INFO: Attempting to fetch data from Finnhub
+[2025-03-10T12:44:01.561Z] INFO: Fetching OHLC data for AAPL from Finnhub
+Making Finnhub API request: https://finnhub.io/api/v1/stock/candle?symbol=AAPL&resolution=D&from=1739018641&to=1741610641&token=curd8o9r01qgoble5gn0curd8o9r01qgoble5gng
+Error making Finnhub API request: Error: HTTP error! status: 403
+    at makeRequest (webpack-internal:///(rsc)/./app/utils/finnhub.ts:32:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Object.eval [as execute] (webpack-internal:///(rsc)/./app/utils/stock-api.ts:219:29)
+    at async APIRequestQueue.processQueue (webpack-internal:///(rsc)/./app/utils/request-queue.ts:84:28)
+[2025-03-10T12:44:01.714Z] ERROR: Provider Finnhub failed
+Details: {
+  error: Error: HTTP error! status: 403
+      at makeRequest (webpack-internal:///(rsc)/./app/utils/finnhub.ts:32:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Object.eval [as execute] (webpack-internal:///(rsc)/./app/utils/stock-api.ts:219:29)
+      at async APIRequestQueue.processQueue (webpack-internal:///(rsc)/./app/utils/request-queue.ts:84:28)
+}
+[2025-03-10T12:44:01.715Z] INFO: Attempting to fetch data from AlphaVantage
+[2025-03-10T12:44:02.217Z] INFO: Fetching OHLC data for AAPL from Alpha Vantage with timeframe 1m
+Getting daily data for AAPL with timeframe compact
+Making Alpha Vantage API request: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&outputsize=compact&apikey=[API_KEY]
+Alpha Vantage API response structure: [ 'Information' ]
+API rate limited, using cached data if available
+No cached data available, using mock data
+[2025-03-10T12:44:04.562Z] INFO: Successfully fetched data from AlphaVantage
+Details: { dataPoints: 31, firstDate: '2025-02-16', lastDate: '2025-02-11' }
+[2025-03-10T12:44:04.564Z] INFO: Caching results from AlphaVantage
+[2025-03-10T12:44:04.564Z] INFO: Saving AAPL data to cache
+[2025-03-10T12:44:04.566Z] INFO: Getting company profile for AAPL
+[2025-03-10T12:44:04.566Z] WARN: API is rate limited, checking cache
+[2025-03-10T12:44:04.566Z] INFO: Attempting to fetch company profile for AAPL from Finnhub
+[2025-03-10T12:44:04.566Z] INFO: Fetching company profile for AAPL from Finnhub
+Making Finnhub API request: https://finnhub.io/api/v1/stock/profile2?symbol=AAPL&token=curd8o9r01qgoble5gn0curd8o9r01qgoble5gng
+Finnhub API response: {
+  country: 'US',
+  currency: 'USD',
+  estimateCurrency: 'USD',
+  exchange: 'NASDAQ NMS - GLOBAL MARKET',
+  finnhubIndustry: 'Technology',
+  ipo: '1980-12-12',
+  logo: 'https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AAPL.png',
+  marketCapitalization: 3591327.1600350006,
+  name: 'Apple Inc',
+  phone: '14089961010',
+  shareOutstanding: 15037.87,
+  ticker: 'AAPL',
+  weburl: 'https://www.apple.com/'
+}
+[2025-03-10T12:44:04.905Z] INFO: Successfully fetched company profile from Finnhub
+[2025-03-10T12:44:04.905Z] INFO: Caching company profile for AAPL
+Processing company profile request for MSFT (forced refresh) (disallowing mock data)
+[2025-03-10T12:44:14.480Z] INFO: Getting company profile for MSFT
+[2025-03-10T12:44:14.480Z] INFO: Attempting to fetch company profile for MSFT from Finnhub
+[2025-03-10T12:44:14.480Z] INFO: Fetching company profile for MSFT from Finnhub
+Making Finnhub API request: https://finnhub.io/api/v1/stock/profile2?symbol=MSFT&token=curd8o9r01qgoble5gn0curd8o9r01qgoble5gng
+Finnhub API response: {
+  country: 'US',
+  currency: 'USD',
+  estimateCurrency: 'USD',
+  exchange: 'NASDAQ NMS - GLOBAL MARKET',
+  finnhubIndustry: 'Technology',
+  ipo: '1986-03-13',
+  logo: 'https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MSFT.png',
+  marketCapitalization: 2923859.416152,
+  name: 'Microsoft Corp',
+  phone: '14258828080',
+  shareOutstanding: 7433.98,
+  ticker: 'MSFT',
+  weburl: 'https://www.microsoft.com/en-us'
+}
+[2025-03-10T12:44:14.893Z] INFO: Successfully fetched company profile from Finnhub
+[2025-03-10T12:44:14.894Z] INFO: Caching company profile for MSFT
+Processing volume analysis request for MSFT with timeframe 1mo (forced refresh) (disallowing mock data)
+Forced refresh requested for MSFT, bypassing cache entirely
+[2025-03-10T12:44:14.914Z] INFO: Starting getStockData for MSFT
+Details: { timeframe: '1mo', forceRefresh: false }
+[2025-03-10T12:44:14.914Z] INFO: Standardized symbol: MSFT, timeframe: 1m
+[2025-03-10T12:44:14.914Z] INFO: Provider order for MSFT
+Details: { providers: [ 'Finnhub', 'AlphaVantage' ], enableFallback: true }
+[2025-03-10T12:44:14.914Z] INFO: Attempting to fetch data from Finnhub
+[Finnhub] Executing request after 1767ms delay (0 remaining)
+[2025-03-10T12:44:16.683Z] INFO: Fetching OHLC data for MSFT from Finnhub
+Making Finnhub API request: https://finnhub.io/api/v1/stock/candle?symbol=MSFT&resolution=D&from=1739018656&to=1741610656&token=curd8o9r01qgoble5gn0curd8o9r01qgoble5gng
+Error making Finnhub API request: Error: HTTP error! status: 403
+    at makeRequest (webpack-internal:///(rsc)/./app/utils/finnhub.ts:32:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Object.eval [as execute] (webpack-internal:///(rsc)/./app/utils/stock-api.ts:219:29)
+    at async APIRequestQueue.processQueue (webpack-internal:///(rsc)/./app/utils/request-queue.ts:84:28)
+[2025-03-10T12:44:16.845Z] ERROR: Provider Finnhub failed
+Details: {
+  error: Error: HTTP error! status: 403
+      at makeRequest (webpack-internal:///(rsc)/./app/utils/finnhub.ts:32:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Object.eval [as execute] (webpack-internal:///(rsc)/./app/utils/stock-api.ts:219:29)
+      at async APIRequestQueue.processQueue (webpack-internal:///(rsc)/./app/utils/request-queue.ts:84:28)
+}
+[2025-03-10T12:44:16.845Z] INFO: Attempting to fetch data from AlphaVantage
+[2025-03-10T12:44:17.346Z] INFO: Fetching OHLC data for MSFT from Alpha Vantage with timeframe 1m
+Getting daily data for MSFT with timeframe compact
+Making Alpha Vantage API request: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&outputsize=compact&apikey=[API_KEY]
+Alpha Vantage API response structure: [ 'Information' ]
+API rate limited, using cached data if available
+No cached data available, using mock data
+[2025-03-10T12:44:17.545Z] INFO: Successfully fetched data from AlphaVantage
+Details: { dataPoints: 31, firstDate: '2025-02-16', lastDate: '2025-02-11' }
+[2025-03-10T12:44:17.546Z] INFO: Caching results from AlphaVantage
+[2025-03-10T12:44:17.546Z] INFO: Saving MSFT data to cache
+[2025-03-10T12:44:17.546Z] INFO: Getting company profile for MSFT
+[2025-03-10T12:44:17.546Z] WARN: API is rate limited, checking cache
+[2025-03-10T12:44:17.546Z] INFO: Using cached company profile for MSFT due to rate limiting
+ ✓ Compiled in 118ms (248 modules)
+ ✓ Compiled in 215ms (482 modules)
+ ✓ Compiled in 182ms (482 modules)
+ ✓ Compiled in 177ms (482 modules)
+ ✓ Compiled in 259ms (482 modules)
+ ✓ Compiled in 149ms (482 modules)
+ ⨯ ./app/page.tsx
+Error: 
+  [31mx[0m Unexpected token `main`. Expected jsx identifier
+     ,-[[36;1;4m/Users/stefantrasca/CascadeProjects/ai-video/app/page.tsx[0m:622:1]
+ [2m622[0m |   };
+ [2m623[0m | 
+ [2m624[0m |   return (
+ [2m625[0m |     <main className="min-h-screen p-4 md:p-8">
+     : [31;1m     ^^^^[0m
+ [2m626[0m |       <section className="max-w-7xl mx-auto">
+ [2m627[0m |         <div className="mb-8">
+ [2m628[0m |           <h1 className="text-3xl font-bold text-gray-900 mb-2">Stock Analysis</h1>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.tsx
+ ⨯ ./app/page.tsx
+Error: 
+  [31mx[0m Unexpected token `main`. Expected jsx identifier
+     ,-[[36;1;4m/Users/stefantrasca/CascadeProjects/ai-video/app/page.tsx[0m:622:1]
+ [2m622[0m |   };
+ [2m623[0m | 
+ [2m624[0m |   return (
+ [2m625[0m |     <main className="min-h-screen p-4 md:p-8">
+     : [31;1m     ^^^^[0m
+ [2m626[0m |       <section className="max-w-7xl mx-auto">
+ [2m627[0m |         <div className="mb-8">
+ [2m628[0m |           <h1 className="text-3xl font-bold text-gray-900 mb-2">Stock Analysis</h1>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.tsx
+ ✓ Compiled in 300ms (468 modules)
+ ✓ Compiled in 88ms (249 modules)
+ ✓ Compiled in 137ms (484 modules)
+ ✓ Compiled in 89ms (484 modules)
+[?25h

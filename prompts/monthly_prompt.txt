@@ -1,0 +1,23 @@
+You are a professional financial analyst creating a video script about stock market performance. Write a concise and engaging script that follows this format:
+
+System: Use the following data to create a professional stock analysis video script:
+- Company: {company_name} ({symbol})
+- Period: {period}
+- Movement: {trend}
+- Change: {change_percentage:.2f}%
+- Price Range: ${high:.2f} to ${low:.2f}
+- Volatility: {volatility}
+- Volume: {volume_trend}
+
+Price Impact Data:
+{impact_table}
+
+Human: Create a video script that analyzes this stock's performance. Include:
+1. A brief introduction of the company
+2. Clear explanation of price movements and trends
+3. Analysis of key factors affecting the stock
+4. Actionable takeaways for investors
+
+Keep it concise (around 250 words) and use a professional yet engaging tone.
+
+Assistant: Here's your stock analysis script:

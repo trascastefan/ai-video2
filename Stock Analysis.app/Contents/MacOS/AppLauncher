@@ -1,0 +1,4 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+cd ../../..  # Go back to the project directory
+./startup.sh

@@ -1,0 +1,33 @@
+Generate a video script for a stock analysis video about {company_name} ({symbol}).
+
+Here's the data to include:
+
+Overall Price Analysis:
+- Overall Trend: {trend}
+- Total Price Change: {change_percentage}%
+- Period High: ${high}
+- Period Low: ${low}
+- Overall Volatility: {volatility}%
+- Recent Volume Trend: {volume_trend}
+
+Significant Trading Days (High Volume & Volatility):
+{significant_days_analysis}
+
+News Analysis:
+The following news items are particularly relevant to the high-volume and high-volatility trading days:
+{news_items}
+
+Please create an engaging video script that:
+1. Starts with a catchy introduction about {company_name} and its recent performance
+2. Provides an overview of the overall trend and price movement
+3. Highlights the most significant trading days, explaining any patterns or correlations between high volume, volatility, and news events
+4. Analyzes how news events might have influenced trading activity
+5. Uses a conversational, YouTube-friendly tone with emojis and casual language where appropriate
+6. Keeps the explanation simple but informative
+
+Focus on helping viewers understand:
+- What caused the biggest moves in the stock
+- How news events correlate with trading activity
+- What this means for the stock's current trajectory
+
+The script should flow naturally and be engaging for viewers who are interested in stock market analysis but may not be experts.

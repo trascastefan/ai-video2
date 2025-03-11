@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+  <context>
+    <company>
+      <symbol>{symbol}</symbol>
+      <name>{companyName}</name>
+      <sector>{sector}</sector>
+      <industry>{industry}</industry>
+      <description>{description}</description>
+    </company>
+    <analysis_period>
+      <timeframe>{timeframe}</timeframe>
+      <start_date>{startDate}</start_date>
+      <end_date>{endDate}</end_date>
+    </analysis_period>
+    <market_data>
+      <market_cap>{marketCap}</market_cap>
+      <volume>{volume}</volume>
+      <price_data>
+        <current_price>{currentPrice}</current_price>
+        <period_high>{periodHigh}</period_high>
+        <period_low>{periodLow}</period_low>
+        <price_change>{priceChange}</price_change>
+        <percentage_change>{percentageChange}</percentage_change>
+      </price_data>
+    </market_data>
+    <volume_analysis>
+      <high_volume_periods>
+        {volumePeriods}
+        <!-- Each period has this structure:
+        <period>
+          <start_date>YYYY-MM-DD</start_date>
+          <end_date>YYYY-MM-DD</end_date>
+          <days_count>1-3</days_count>
+          <total_volume>sum of volume</total_volume>
+          <avg_daily_volume>average volume</avg_daily_volume>
+          <price_range>
+            <high>highest price in period</high>
+            <low>lowest price in period</low>
+          </price_range>
+          <price_movement>
+            <start_price>price at start</start_price>
+            <end_price>price at end</end_price>
+            <change_percentage>overall change</change_percentage>
+          </price_movement>
+          <news_context>
+            <pre_period_news>news from 3 days before period start</pre_period_news>
+            <period_news>news during the period</period_news>
+          </news_context>
+        </period>
+        -->
+      </high_volume_periods>
+    </volume_analysis>
+    <news_context>
+      <significant_events>
+        {newsEvents}
+        <!-- Each event has this structure:
+        <event>
+          <date>YYYY-MM-DD</date>
+          <headline>news headline</headline>
+          <source>news source</source>
+          <summary>news summary</summary>
+          <impact>
+            <volume_change>volume impact</volume_change>
+            <price_change>price impact</price_change>
+          </impact>
+        </event>
+        -->
+      </significant_events>
+    </news_context>
+    <high_volume_events>
+      {volumeDays}
+      <!-- Each day has this structure:
+      <day>
+        <date>YYYY-MM-DD</date>
+        <price_range>
+          <low>lowest price</low>
+          <high>highest price</high>
+        </price_range>
+        <close>closing price</close>
+        <change_percentage>daily change %</change_percentage>
+        <news>
+          <article>
+            <date>news date</date>
+            <headline>news headline</headline>
+            <source>news source</source>
+            <summary>news summary</summary>
+          </article>
+          <!-- Up to 3 news articles per day -->
+        </news>
+      </day>
+      -->
+    </high_volume_events>
+  </context>
+  
+  <instructions>
+    You are a financial analyst creating a compelling narrative about {companyName}'s ({symbol}) stock performance during the {timeframe} period. Your goal is to weave a story that connects significant price movements with their underlying catalysts, helping viewers understand the market's reaction patterns.
+
+    Narrative Structure:
+
+    1. Setting the Stage (15-20 seconds)
+       - Brief company introduction focusing on their market position
+       - Overview of the overall price trend during the period
+       - Highlight the total percentage change and most dramatic movement
+
+    2. Key Market Reactions (60-90 seconds)
+       For each significant price movement:
+       - Lead with the magnitude of the move (e.g., "A dramatic X% surge..." or "A sharp X% decline...")
+       - Focus only on news that clearly drove the price action
+       - Explain the market's logic behind the reaction
+       - Connect this reaction to the broader company/industry story
+       - Skip news that didn't meaningfully impact the stock
+
+    3. Market Psychology (20-30 seconds)
+       - Identify what types of news consistently move the stock
+       - Highlight any shift in market sentiment during the period
+       - Note any overreactions or pattern breaks
+       - Point out when the market ignored seemingly important news
+
+    4. Investment Implications (15-20 seconds)
+       - Extract actionable insights from the observed patterns
+       - Highlight the most reliable price movement triggers
+       - Discuss what this means for future trading
+
+    Storytelling Guidelines:
+    - Create a flowing narrative that moves naturally between price movements
+    - Focus on percentage changes rather than specific prices
+    - Emphasize cause-and-effect relationships
+    - Use relative time references instead of specific dates (e.g., "Later in the period..." or "Following this...")
+    - Only include news that had a clear impact on the stock
+    - Explain why certain news mattered more than others
+    - Keep the narrative focused on price action and market psychology
+
+    Language Requirements:
+    - Use dynamic language for price movements:
+      * "surged," "plunged," "rallied," "retreated"
+      * "sharp," "dramatic," "steady," "gradual"
+    - Employ transitional phrases that show progression:
+      * "This was followed by..."
+      * "The momentum continued as..."
+      * "The trend reversed when..."
+    - Include brief pauses ([...]) between major shifts in the narrative
+
+    Critical Considerations:
+    - Evaluate each news item's actual impact on price
+    - Skip or minimize coverage of days with high volume but little price movement
+    - Focus on news that started or changed trends
+    - Look for connected events that created larger moves
+    - Identify false moves or temporary reactions that reversed
+    - Note when multiple news events combined to amplify price movement
+
+    The goal is to help viewers understand:
+    - What really moves this stock
+    - How the market's reaction patterns evolved
+    - Which news categories matter most
+    - What to watch for in the future
+  </instructions>
+</prompt> 

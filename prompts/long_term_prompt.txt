@@ -1,0 +1,22 @@
+Generate a comprehensive script for a video analyzing {company_name} ({symbol})'s stock performance over the past {period}.
+
+Key Performance Metrics:
+1. Price Movement: {trend} ({change_percentage:.2f}%)
+2. Trading Range: High ${high:.2f} - Low ${low:.2f}
+3. Volatility: {volatility}
+4. Average Daily Volume: {avg_daily_volume}
+5. Average Daily Range: {avg_daily_range}
+6. High Volume Days: {high_volume_days}
+
+Price Impact Analysis:
+{impact_table}
+
+Please create a detailed script that:
+- Opens with a company overview and sector context
+- Analyzes the long-term price trends and trading patterns
+- Discusses key technical and fundamental factors
+- Highlights major events and their market impact
+- Provides a balanced perspective on future outlook
+- Concludes with actionable insights for investors
+
+Maintain a professional tone while making complex market concepts accessible to viewers.
