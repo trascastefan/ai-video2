@@ -1,4 +1,4 @@
-// File: /Users/stefantrasca/CascadeProjects/ai-video/app/page.tsx
+// File: /home/trascastefan/ai-video2/app/page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
